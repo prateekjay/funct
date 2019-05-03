@@ -9,11 +9,11 @@ const related = name =>
 						Spotify.findArtist(name)
 						.map(artist => artist.id)
 						.chain(Spotify.relatedArtists)
-						.map(artists => artists.map(artist => artist.name))
+						//.map(artists => artists.map(artist => artist.name))
 
 
 const main = ([name1,name2]) =>
 			Task.of(rels1 => rels2 => [rels1,rels2])
 			.ap(related(name1)).ap(related(name2))
 
-names.chain(main).fork(console.err,console.log)
+names.chain(main).fork(console.error,console.log)

@@ -11,7 +11,7 @@ const httpGet = url => new Task((rej,res) => request(url,(error,response,body) =
 const getJSON = url => 
 	httpGet(url)
 	.map(parse)
-	.map(eitherToTask)
+	.chain(eitherToTask)
 
 const first = xs => Either.fromNullable(xs[0])
 
@@ -21,10 +21,10 @@ const parse = Either.try(JSON.parse)
 
 const trace = msg => x => { console.log(msg,x); return x }
 const findArtist = name =>
-getJSON(`https:\/\/api.spotify.com/v1/search?q=${name}&type=artist`)
-	.map(result => { console.log(result); 
+getJSON(`https://api.spotify.com/v1/search?q=${name}&type=artist`)
+		.map(result => { console.log(result) 
 			 return result })
-	.map(result => result.artists.items) //result.artists.items
+	.map(result => result.artists.items)
 	.map(first)
 	.chain(eitherToTask)
 
